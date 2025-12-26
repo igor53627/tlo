@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Rust
+target/
+Cargo.lock
+
+# LaTeX
+*.aux
+*.log
+*.out
+*.pdf
+*.synctex.gz
+*.bbl
+*.blg
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/

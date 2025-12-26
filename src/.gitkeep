@@ -1,0 +1,4 @@
+# Rust implementation (coming soon)
+# - six_six.rs (topology layer)
+# - compute_and_compare.rs (LWE layer)
+# - circuit.rs (core types)
