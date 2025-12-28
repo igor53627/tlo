@@ -17,7 +17,7 @@ TLO provides a two-layer security model:
 tlo/
 ├── paper/                    # Academic papers (LaTeX + PDFs)
 │   ├── tlo-paper.tex         # Full paper
-│   ├── tlo-conference-v2.tex # Conference version (honest claims)
+│   ├── tlo-conference.tex    # Conference version (honest claims)
 │   └── *.pdf                 # Built PDFs
 ├── docs/                     # Security documentation
 │   ├── security-model-v3.md  # Current security model
@@ -128,7 +128,7 @@ TLO is NOT intended for:
 ## Papers
 
 - **Full paper**: [paper/tlo-paper.pdf](paper/tlo-paper.pdf)
-- **Conference version**: [paper/tlo-conference-v2.pdf](paper/tlo-conference-v2.pdf)
+- **Conference version**: [paper/tlo-conference.pdf](paper/tlo-conference.pdf)
 - **Security model**: [docs/security-model-v3.md](docs/security-model-v3.md)
 
 ## Related
