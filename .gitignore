@@ -1,25 +1,9 @@
-# Python
-__pycache__/
-*.pyc
-.venv/
-venv/
-
-# Rust
-target/
+/target
 Cargo.lock
-
-# LaTeX
 *.aux
 *.log
 *.out
-*.pdf
 *.synctex.gz
-*.bbl
-*.blg
-
-# OS
+*.fls
+*.fdb_latexmk
 .DS_Store
-
-# IDE
-.idea/
-.vscode/
