@@ -590,7 +590,7 @@ impl CircuitOwf {
         use rand::SeedableRng;
         use rand_chacha::ChaCha20Rng;
 
-        let rng = ChaCha20Rng::seed_from_u64(0x0F5EED);
+        let mut rng = ChaCha20Rng::seed_from_u64(0x0F5EED);
         let mut gates = Vec::new();
 
         // Create avalanche effect through multiple XOR rounds

@@ -129,7 +129,7 @@ Topology-only defenses cannot block this attack because any structural transform
 
 \textbf{What \tlo{} provides:}
 \begin{itemize}
-  \item Computational security based on \lwe{} hardness (see Table~\ref{tab:lwe-security} for estimates: ${\sim}49$-bit classical for $n{=}64$ with uniform secrets) plus empirical heuristics (topology layer)
+  \item Computational security based on \lwe{} hardness (see Table~\ref{tab:lwe-security} for estimates: ${\sim}108$-bit classical for $n{=}64$ with uniform secrets) plus empirical heuristics (topology layer)
   \item Attack resistance (6/6 in our evaluation matrix---not a universal security claim)
   \item Practical gas costs (${\sim}2.58$M for $n{=}64$, 8.6\% of block limit)
   \item Post-quantum resistance (relative to \lwe{} parameters)
@@ -468,7 +468,7 @@ Each gate's control function $c_f: \{0,1\}^2 \to \{0,1\}$ (one of 16 possible) i
 \begin{itemize}
   \item Modulus: $q = 65521$ (largest 16-bit prime)
   \item Dimension: $n \in \{16, 32, 64\}$ (see Table~\ref{tab:lwe-security} for security estimates)
-  \item Error: Gaussian with $\sigma = \sqrt{q}/4$
+  \item Error: Gaussian with $\sigma = 1024$ (safe since $\sigma \ll q/4 = 16380$)
 \end{itemize}
 
 \textbf{Storage per gate:} $n \cdot 2 + 2$ bytes per ciphertext, 4 ciphertexts per gate, plus 3 bytes for pins.
@@ -516,16 +516,17 @@ Table~\ref{tab:lwe-security} presents security estimates for uniform-secret \lwe
 \textbf{Dimension $n$} & \textbf{Classical} & \textbf{Quantum} & \textbf{Gas} & \textbf{Notes} \\
 \midrule
 $n{=}16$ & ${\sim}22$-bit & ${\sim}20$-bit & 744K & Toy parameters \\
-$n{=}32$ & ${\sim}22$-bit & ${\sim}20$-bit & 1.27M & Low security \\
-$n{=}64$ & ${\sim}49$-bit & ${\sim}45$-bit & 2.58M & Short-lived secrets \\
-$n{=}128$ & ${\sim}81$-bit & ${\sim}74$-bit & ${\sim}5$M & Medium-lived secrets \\
+$n{=}32$ & ${\sim}51$-bit & ${\sim}46$-bit & 1.27M & Low security \\
+$n{=}64$ & ${\sim}108$-bit & ${\sim}98$-bit & 2.58M & Short-lived secrets \\
+$n{=}96$ & ${\sim}178$-bit & ${\sim}162$-bit & ${\sim}4$M & Medium-lived secrets \\
+$n{=}128$ & ${\sim}203$-bit & ${\sim}185$-bit & ${\sim}5$M & Long-lived secrets \\
 $n{=}256$ & ${\sim}132$-bit & ${\sim}120$-bit & ${\sim}10$M & NIST-level security \\
 \bottomrule
 \end{tabular}
-\caption{\lwe{} security estimates for uniform-secret variant ($q{=}65521$, $\sigma{=}\sqrt{q}/4$). Uniform secrets resist primal attacks; estimates based on dual attack. Gas costs are for 64-wire/640-gate circuits.}
+\caption{\lwe{} security estimates for uniform-secret variant ($q{=}65521$, $\sigma{=}1024$). Validated with lattice-estimator. Uniform secrets resist primal attacks; estimates based on dual attack. Gas costs are for 64-wire/640-gate circuits.}
 \end{table}
 
-\textbf{Important:} Our default parameters ($n{=}64$) provide ${\sim}49$-bit classical security. This is suitable for \emph{eventually-expiring secrets} with lifetimes of hours to days (e.g., MEV windows, auction rounds). For longer-lived secrets, use $n{\geq}128$ (${\sim}81$-bit) or $n{=}256$ for NIST-level security. We validated these estimates via direct lattice attacks using fpylll/BKZ; see \S\ref{sec:attack-validation}.
+\textbf{Important:} Our default parameters ($n{=}64$) provide ${\sim}108$-bit classical security. This is suitable for \emph{eventually-expiring secrets} with lifetimes of hours to days (e.g., MEV windows, auction rounds). For longer-lived secrets, use $n{\geq}128$ (${\sim}203$-bit) or $n{=}256$ for NIST-level security. We validated these estimates via direct lattice attacks using fpylll/BKZ; see \S\ref{sec:attack-validation}.
 
 \subsection{Security Definitions}
 
@@ -617,7 +618,7 @@ For honeypots with 256-bit secrets, even quantum brute-force is infeasible ($2^{
 \midrule
 $n{=}16$ & ${\sim}22$-bit & 744K & 2.5\% \\
 $n{=}32$ & ${\sim}22$-bit & 1.27M & 4.2\% \\
-\textbf{$n{=}64$} & \textbf{${\sim}49$-bit} & \textbf{2.58M} & \textbf{8.6\%} \\
+\textbf{$n{=}64$} & \textbf{${\sim}108$-bit} & \textbf{2.58M} & \textbf{8.6\%} \\
 \bottomrule
 \end{tabular}
 \caption{\tlo{} gas costs by \lwe{} dimension (64-wire/640-gate circuits, Tenderly-confirmed). Security estimates for uniform-secret \lwe{} (dual attack).}
@@ -630,7 +631,7 @@ $n{=}32$ & ${\sim}22$-bit & 1.27M & 4.2\% \\
   \item $n{=}64$: 335 KB
 \end{itemize}
 
-For the paper, we use $n{=}64$ providing ${\sim}49$-bit classical security---suitable for eventually-expiring secrets (hours to days).
+For the paper, we use $n{=}64$ providing ${\sim}108$-bit classical security---suitable for eventually-expiring secrets (hours to days).
 
 %------------------------------------------------------------------------------
 \section{Attack Evaluation}
@@ -686,7 +687,7 @@ To validate our security estimates, we implemented direct lattice attacks agains
 \textbf{Results:}
 \begin{itemize}
   \item \textbf{$n{=}16$:} BKZ-50 with 200+ basis updates \emph{failed} to recover the secret. Primal attack ineffective due to large secret norm ($\|s\| \approx \sqrt{n} \cdot q/2$).
-  \item \textbf{$n{=}64$:} Attack running for 9+ hours on dedicated server (still in progress at time of writing). Extended runtime validates that ${\sim}49$-bit security is realistic.
+  \item \textbf{$n{=}64$:} Attack running for 9+ hours on dedicated server (still in progress at time of writing). Extended runtime validates that ${\sim}108$-bit security is realistic.
 \end{itemize}
 
 \textbf{Key finding:} The uniform-secret variant of \lwe{} used in \tlo{} is harder to attack than small-secret \lwe{}. Standard primal (uSVP) attacks assume the secret has small norm; when $s$ is uniform, these attacks fail. Dual attacks remain applicable but require larger BKZ block sizes.
@@ -908,7 +909,7 @@ We do not claim \tlo{} is always better than hash-compare. The choice depends on
 
 \begin{itemize}
   \item \textbf{Topology layer (heuristic):} Defeats structural and statistical attacks through wire selection patterns. Empirically validated.
-  \item \textbf{\lwe{} layer (computational):} On-chain inner product computation hides control functions, defeating semantic attacks. ${\sim}49$-bit classical security with $n{=}64$ using uniform secrets (see Table~\ref{tab:lwe-security}).
+  \item \textbf{\lwe{} layer (computational):} On-chain inner product computation hides control functions, defeating semantic attacks. ${\sim}108$-bit classical security with $n{=}64$ using uniform secrets (see Table~\ref{tab:lwe-security}).
 \end{itemize}
 
 \tlo{} achieves 6/6 resistance against our attack evaluation matrix at ${\sim}2.58$M gas ($n{=}64$, 8.6\% of block limit). Security is based on \lwe{} hardness combined with empirical topology properties. The system targets \emph{eventually-expiring secrets} where moderate security suffices for the secret's lifetime. Requires only a standard smart contract with timestamp expiry.
