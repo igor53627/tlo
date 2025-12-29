@@ -1,5 +1,13 @@
 # TLO: Topology-Lattice Obfuscation
 
+> **[ARCHIVED]** This project has been superseded by [LARC](https://github.com/igor53627/larc) (LWE-Activated Reversible Contracts).
+>
+> **Why?** The topology layer (SixSix mixing) provides attack resistance in off-chain analysis but adds no security for on-chain deployment. On-chain, the full circuit data is public—attackers can simply evaluate it. The only security that matters on-chain is the LWE layer. LARC focuses purely on LWE-based compute-and-compare without the topology overhead.
+>
+> Use LARC for new deployments.
+
+---
+
 Practical circuit obfuscation for smart contracts combining topology mixing with lattice-based cryptography (LWE).
 
 ## Overview
